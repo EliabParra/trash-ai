@@ -17,8 +17,8 @@ def create_generators():
     Uses 'validation_split' feature of ImageDataGenerator for efficiency.
     """
     
-    # Normalization [0, 1] is handled by rescale=1./255
-    datagen = ImageDataGenerator(
+    # 1. Generator for Training (with Augmentation)
+    train_datagen = ImageDataGenerator(
         rescale=1./255,
         rotation_range=30,
         width_shift_range=0.2,
@@ -27,12 +27,18 @@ def create_generators():
         zoom_range=0.2,
         horizontal_flip=True,
         fill_mode='nearest',
-        validation_split=0.25 # 75% Training, 25% Validation
+        validation_split=0.25
+    )
+
+    # 2. Generator for Validation (No Augmentation, only Rescale)
+    val_datagen = ImageDataGenerator(
+        rescale=1./255,
+        validation_split=0.25
     )
 
     print(f"Loading data from: {os.path.abspath(RAW_DATA_DIR)}")
 
-    train_generator = datagen.flow_from_directory(
+    train_generator = train_datagen.flow_from_directory(
         RAW_DATA_DIR,
         target_size=(IMG_height, IMG_width),
         batch_size=BATCH_SIZE,
@@ -42,7 +48,7 @@ def create_generators():
         shuffle=True
     )
 
-    validation_generator = datagen.flow_from_directory(
+    validation_generator = val_datagen.flow_from_directory(
         RAW_DATA_DIR,
         target_size=(IMG_height, IMG_width),
         batch_size=BATCH_SIZE,
