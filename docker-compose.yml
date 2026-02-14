@@ -15,5 +15,5 @@ services:
         volumes:
             - ./models:/app/models
             - ./data:/app/data
-            - ./confusion_matrix.png:/app/confusion_matrix.png
+
         command: python src/evaluate.py

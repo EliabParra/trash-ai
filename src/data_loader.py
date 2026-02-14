@@ -20,6 +20,13 @@ def create_generators():
     # Normalization [0, 1] is handled by rescale=1./255
     datagen = ImageDataGenerator(
         rescale=1./255,
+        rotation_range=30,
+        width_shift_range=0.2,
+        height_shift_range=0.2,
+        shear_range=0.2,
+        zoom_range=0.2,
+        horizontal_flip=True,
+        fill_mode='nearest',
         validation_split=0.25 # 75% Training, 25% Validation
     )
 

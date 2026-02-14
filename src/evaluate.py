@@ -12,7 +12,7 @@ import seaborn as sns
 from src.data_loader import create_generators, IMG_height, IMG_width
 
 MODEL_PATH = os.path.join('models', 'trashnet_cnn_v1.keras')
-CONFUSION_MATRIX_PATH = 'confusion_matrix.png'
+CONFUSION_MATRIX_PATH = os.path.join('models', 'confusion_matrix.png')
 
 def evaluate(model_path=MODEL_PATH):
     if not os.path.exists(model_path):
