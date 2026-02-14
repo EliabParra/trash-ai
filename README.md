@@ -55,22 +55,6 @@ Para evaluar el modelo y generar la matriz de confusión (`confusion_matrix.png`
 python src/evaluate.py
 ```
 
-## Historial de Implementación (Log de Cambios)
-
-De acuerdo al plan de ejecución, se han realizado las siguientes implementaciones:
-
-- **Fase 1**: `feat: implement data loading and preprocessing for TrashNet`
-    - Implementado en `src/data_loader.py`: Redimensionamiento 64x64, Normalización, Split 75/25.
-
-- **Fase 2**: `feat: define CNN architecture with Conv2D and Dropout layers`
-    - Implementado en `src/model.py`: 3 Bloques Conv, FocalX GaussianNoise, Dropout.
-
-- **Fase 3**: `fix: optimize training pipeline with Adam and EarlyStopping`
-    - Implementado en `src/train.py`: Adam, Categorical Cross-Entropy, Callbacks.
-
-- **Fase 4**: `docs: update evaluation metrics and confusion matrix results`
-    - Implementado en `src/evaluate.py`: Reporte de clasificación y matriz de confusión.
-
 ## Referencias
 
 - TrashNet Dataset: Gary Thung
