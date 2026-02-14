@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+    train:
+        build: .
+        container_name: trash-ai-trainer
+        volumes:
+            - ./models:/app/models
+            - ./data:/app/data
+        command: python src/train.py
+
+    evaluate:
+        build: .
+        container_name: trash-ai-evaluator
+        volumes:
+            - ./models:/app/models
+            - ./data:/app/data
+            - ./confusion_matrix.png:/app/confusion_matrix.png
+        command: python src/evaluate.py

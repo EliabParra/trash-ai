@@ -59,3 +59,33 @@ python src/evaluate.py
 
 - TrashNet Dataset: Gary Thung
 - FocalX AI: Robustez y seguridad adversarial
+
+## Ejecución con Docker
+
+Si tienes problemas con el entorno local de Python, puedes usar Docker para ejecutar el proyecto en un contenedor aislado.
+
+### Requisitos
+
+- Docker Desktop instalado y corriendo.
+
+### Instrucciones
+
+1.  **Construir la imagen**:
+
+    ```bash
+    docker-compose build
+    ```
+
+2.  **Entrenar el Modelo**:
+
+    ```bash
+    docker-compose up train
+    ```
+
+    Los modelos entrenados aparecerán en tu carpeta local `models/`.
+
+3.  **Evaluar el Modelo**:
+    ```bash
+    docker-compose up evaluate
+    ```
+    La matriz de confusión se guardará como `confusion_matrix.png` en el directorio raíz.
