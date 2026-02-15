@@ -6,8 +6,8 @@ import shutil
 
 # Constants
 RAW_DATA_DIR = os.path.join('data', 'raw', 'dataset-resized')
-IMG_height = 64
-IMG_width = 64
+IMG_height = 224
+IMG_width = 224
 BATCH_SIZE = 32
 RANDOM_SEED = 42
 

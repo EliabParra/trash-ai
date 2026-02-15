@@ -1,47 +1,38 @@
 import tensorflow as tf
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout, Input
-from tensorflow.keras.layers import GaussianNoise
+from tensorflow.keras.applications import MobileNetV2
+from tensorflow.keras.layers import GlobalAveragePooling2D, Dense, Input, GaussianNoise
+from tensorflow.keras.models import Model
 
-def build_model(input_shape=(64, 64, 3), num_classes=6):
+def build_model(input_shape=(224, 224, 3), num_classes=6):
     """
-    Builds the CNN model architecture for TrashNet classification.
-    Includes FocalX-inspired robustness features (GaussianNoise).
+    Builds the MobileNetV2 Transfer Learning model for TrashNet.
+    Optimized for Accuracy > 90% and efficient execution.
+    """
+    # 1. Base Model: MobileNetV2 pre-trained on ImageNet
+    base_model = MobileNetV2(
+        input_shape=input_shape,
+        include_top=False,
+        weights='imagenet'
+    )
     
-    Args:
-        input_shape (tuple): Shape of input images (height, width, channels).
-        num_classes (int): Number of output classes.
-        
-    Returns:
-        tf.keras.Model: The compiled CNN model (uncompiled, just architecture).
-    """
-    model = Sequential([
-        Input(shape=input_shape),
-        
-        # FocalX Robustness Layer: Gaussian Noise to simulate sensor noise/adversarial perturbations
-        # This acts as a smoothing mechanism to improve generalization and robustness.
-        GaussianNoise(0.1), 
-        
-        # Block 1
-        Conv2D(32, (2, 2), activation='relu', padding='same', strides=1),
-        MaxPooling2D(pool_size=(2, 2)),
-        Dropout(0.2),
-        
-        # Block 2
-        Conv2D(32, (2, 2), activation='relu', padding='same', strides=1),
-        MaxPooling2D(pool_size=(2, 2)),
-        Dropout(0.2),
-        
-        # Block 3
-        Conv2D(32, (2, 2), activation='relu', padding='same', strides=1),
-        MaxPooling2D(pool_size=(2, 2)),
-        Dropout(0.2),
-        
-        # Classification Head
-        Flatten(),
-        Dense(512, activation='relu'),
-        Dense(num_classes, activation='softmax')
-    ])
+    # Freeze the base model weights initially
+    base_model.trainable = False
+    
+    # 2. Add custom classification head
+    inputs = Input(shape=input_shape)
+    
+    # FocalX: Robustness layer
+    x = GaussianNoise(0.01)(inputs) 
+    
+    # MobileNetV2 layers
+    x = base_model(x, training=False)
+    x = GlobalAveragePooling2D()(x)
+    x = Dense(128, activation='relu')(x)
+    x = Dropout(0.2)(x) # Keeping some dropout for regularization
+    
+    outputs = Dense(num_classes, activation='softmax')(x)
+    
+    model = Model(inputs, outputs)
     
     return model
 
