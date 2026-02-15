@@ -7,6 +7,7 @@ services:
         volumes:
             - ./models:/app/models
             - ./data:/app/data
+            - ./src:/app/src
         command: python src/train.py
 
     evaluate:
@@ -15,5 +16,5 @@ services:
         volumes:
             - ./models:/app/models
             - ./data:/app/data
-
+            - ./src:/app/src
         command: python src/evaluate.py

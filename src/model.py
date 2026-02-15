@@ -1,6 +1,6 @@
 import tensorflow as tf
 from tensorflow.keras.applications import MobileNetV2
-from tensorflow.keras.layers import GlobalAveragePooling2D, Dense, Input, GaussianNoise
+from tensorflow.keras.layers import GlobalAveragePooling2D, Dense, Input, GaussianNoise, Dropout
 from tensorflow.keras.models import Model
 
 def build_model(input_shape=(224, 224, 3), num_classes=6):
@@ -34,7 +34,7 @@ def build_model(input_shape=(224, 224, 3), num_classes=6):
     
     model = Model(inputs, outputs)
     
-    return model
+    return model, base_model
 
 if __name__ == "__main__":
     model = build_model()
