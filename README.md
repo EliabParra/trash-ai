@@ -60,6 +60,13 @@ python src/evaluate.py
 - TrashNet Dataset: Gary Thung
 - FocalX AI: Robustez y seguridad adversarial
 
+## Documentación
+
+Para detalles técnicos y guías de uso, consulta la carpeta `docs/`:
+
+- [📘 Guía de Usuario (Cómo ejecutar)](docs/USER_GUIDE.md)
+- [🧠 Model Card (Arquitectura Técnica)](docs/MODEL_CARD.md)
+
 ## Ejecución con Docker
 
 Si tienes problemas con el entorno local de Python, puedes usar Docker para ejecutar el proyecto en un contenedor aislado.
