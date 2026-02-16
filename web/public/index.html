@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrashAI — Clasificador de Residuos Inteligente</title>
+    <meta name="description"
+        content="Clasifica tus residuos con inteligencia artificial. Sube una foto y descubre si es cartón, vidrio, metal, papel, plástico o basura general.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <!-- Background Blobs -->
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <span class="logo-icon">♻️</span>
+                <h1>Trash<span class="accent">AI</span></h1>
+            </div>
+            <p class="subtitle">Clasificación inteligente de residuos con MobileNetV2</p>
+        </header>
+
+        <!-- Upload Section -->
+        <section class="upload-section" id="uploadSection">
+            <div class="dropzone" id="dropzone">
+                <div class="dropzone-content">
+                    <div class="dropzone-icon">📷</div>
+                    <h2>Arrastra tu imagen aquí</h2>
+                    <p>o haz clic para seleccionar</p>
+                    <span class="dropzone-formats">JPG, PNG, WEBP</span>
+                </div>
+                <input type="file" id="fileInput" accept="image/*" hidden>
+            </div>
+        </section>
+
+        <!-- Preview Section -->
+        <section class="preview-section hidden" id="previewSection">
+            <div class="preview-card">
+                <div class="preview-image-wrapper">
+                    <img id="previewImage" src="#" alt="Preview">
+                </div>
+                <div class="preview-actions">
+                    <button class="btn btn-primary" id="classifyBtn" onclick="classify()">
+                        <span class="btn-icon">🔍</span>
+                        Clasificar Residuo
+                    </button>
+                    <button class="btn btn-secondary" onclick="resetApp()">
+                        <span class="btn-icon">↩️</span>
+                        Otra imagen
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Loading -->
+        <section class="loading-section hidden" id="loadingSection">
+            <div class="spinner"></div>
+            <p>Analizando imagen con IA...</p>
+        </section>
+
+        <!-- Results Section -->
+        <section class="results-section hidden" id="resultsSection">
+            <!-- Top Result Card -->
+            <div class="result-hero" id="resultHero">
+                <div class="result-emoji" id="resultEmoji"></div>
+                <div class="result-info">
+                    <span class="result-label">Clasificación</span>
+                    <h2 class="result-class" id="resultClass"></h2>
+                    <div class="result-confidence">
+                        <div class="confidence-bar">
+                            <div class="confidence-fill" id="confidenceFill"></div>
+                        </div>
+                        <span class="confidence-text" id="confidenceText"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tip Card -->
+            <div class="tip-card" id="tipCard">
+                <span class="tip-icon">💡</span>
+                <p id="tipText"></p>
+            </div>
+
+            <!-- Charts Row -->
+            <div class="charts-row">
+                <div class="chart-card">
+                    <h3>Distribución de Probabilidades</h3>
+                    <div class="chart-wrapper">
+                        <canvas id="pieChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <h3>Comparación por Categoría</h3>
+                    <div class="chart-wrapper">
+                        <canvas id="barChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- All Results Table -->
+            <div class="table-card">
+                <h3>Detalle Completo</h3>
+                <div class="results-table" id="resultsTable"></div>
+            </div>
+
+            <!-- Actions -->
+            <div class="result-actions">
+                <button class="btn btn-primary btn-large" onclick="resetApp()">
+                    <span class="btn-icon">📷</span>
+                    Clasificar Otra Imagen
+                </button>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Powered by <strong>MobileNetV2</strong> · TensorFlow · TrashNet Dataset</p>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="/js/app.js"></script>
+</body>
+
+</html>
