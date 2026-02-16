@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
     train:
         build: .
@@ -19,14 +17,6 @@ services:
             - ./src:/app/src
         command: python src/evaluate.py
 
-    export:
-        build: .
-        container_name: trash-ai-exporter
-        volumes:
-            - ./models:/app/models
-            - ./src:/app/src
-        command: python src/export_savedmodel.py
-
     web:
         build:
             context: .
@@ -37,5 +27,5 @@ services:
         volumes:
             - ./models:/app/models
             - ./src:/app/src
-            - ./web:/app/web
-        command: node web/server.js
+            - ./web/public:/app/web/public
+        command: python src/server.py

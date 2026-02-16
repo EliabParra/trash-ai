@@ -14,6 +14,45 @@ let selectedFile = null;
 let pieChart = null;
 let barChart = null;
 
+// ── Supported Formats ──
+const ALLOWED_EXTENSIONS = ["jpg", "jpeg", "png", "webp", "bmp", "gif"];
+const ALLOWED_MIME = [
+	"image/jpeg",
+	"image/png",
+	"image/webp",
+	"image/bmp",
+	"image/gif",
+];
+
+function isValidImage(file) {
+	const ext = file.name.split(".").pop().toLowerCase();
+	return ALLOWED_MIME.includes(file.type) || ALLOWED_EXTENSIONS.includes(ext);
+}
+
+// ── Alert Modal ──
+function showAlert(message) {
+	// Remove existing alert if any
+	const existing = document.getElementById("customAlert");
+	if (existing) existing.remove();
+
+	const overlay = document.createElement("div");
+	overlay.id = "customAlert";
+	overlay.style.cssText =
+		"position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;z-index:9999;backdrop-filter:blur(4px);animation:fadeIn 0.2s ease";
+	overlay.innerHTML = `
+        <div style="background:#1f2937;border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:32px;max-width:400px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.5);animation:slideUp 0.3s ease">
+            <div style="font-size:3rem;margin-bottom:12px">⚠️</div>
+            <h3 style="color:#f3f4f6;margin-bottom:8px;font-size:1.2rem">Formato no soportado</h3>
+            <p style="color:#9ca3af;margin-bottom:20px;font-size:0.95rem">${message}</p>
+            <button onclick="document.getElementById('customAlert').remove()" style="background:linear-gradient(135deg,#10b981,#059669);color:white;border:none;padding:10px 28px;border-radius:10px;font-weight:600;cursor:pointer;font-family:inherit">Entendido</button>
+        </div>
+    `;
+	document.body.appendChild(overlay);
+	overlay.addEventListener("click", (e) => {
+		if (e.target === overlay) overlay.remove();
+	});
+}
+
 // ── Dropzone Events ──
 dropzone.addEventListener("click", () => fileInput.click());
 
@@ -30,11 +69,27 @@ dropzone.addEventListener("drop", (e) => {
 	e.preventDefault();
 	dropzone.classList.remove("dragover");
 	const file = e.dataTransfer.files[0];
-	if (file && file.type.startsWith("image/")) handleFile(file);
+	if (!file) return;
+	if (!isValidImage(file)) {
+		showAlert(
+			`El archivo "<strong>${file.name}</strong>" no es una imagen válida.<br>Formatos aceptados: <strong>JPG, PNG, WEBP, BMP, GIF</strong>`,
+		);
+		return;
+	}
+	handleFile(file);
 });
 
 fileInput.addEventListener("change", (e) => {
-	if (e.target.files[0]) handleFile(e.target.files[0]);
+	const file = e.target.files[0];
+	if (!file) return;
+	if (!isValidImage(file)) {
+		showAlert(
+			`El archivo "<strong>${file.name}</strong>" no es una imagen válida.<br>Formatos aceptados: <strong>JPG, PNG, WEBP, BMP, GIF</strong>`,
+		);
+		fileInput.value = "";
+		return;
+	}
+	handleFile(file);
 });
 
 // ── File Handling ──
