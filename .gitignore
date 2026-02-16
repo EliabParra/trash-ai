@@ -22,3 +22,6 @@ confusion_matrix.png
 # IDEs
 .vscode/
 .idea/
+
+# Node
+node_modules/
